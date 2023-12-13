@@ -7,7 +7,7 @@ then
     echo "mate you need to have root access to install"
     exit 1
 else
-    echo "you can install this pakages"
+    echo "you can install this packages"
 fi
 
 checking(){
@@ -20,12 +20,12 @@ checking(){
     fi 
 }
 
-read -p "Enter what pak you need to install : " pakage
+read -p "Enter what package you need to install : " package
 
-which ($pakage)
+which ${package}
 d = $?
 if [[ $d -ne 0 ]]
 then
-    yum install $pakage -y
+    apt-get install ${package} -y
 else
-    echo "pak $pakage already installed in this system"
+    echo "package ${package} already installed in this system"
