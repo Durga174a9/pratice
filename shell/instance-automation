@@ -7,7 +7,7 @@ DOMAIN_NAME="174a9.online"
 
 INSTANCES=("mongodb" "redis" "mysql" "rabbitmq" "web" "catalogue" "cart" "user" "payment" "shipping")
 
-for i in INSTANCES[$0]
+for i in ${INSTANCES[$0]}
 do
     if [ $i == "mongodb" ] || [ if $i == "redis" ] || [ if $i == "mysql" ] || [ if $i == "rabbitmq" ]
     then
@@ -16,7 +16,7 @@ do
         instance_type="t2.micro"
     fi
 
-    IP_ADDRESS=$(aws ec2 run-instances --image-id $IAM_USER --instance-type $instance_type --security-group-ids $SEC_ID--tag-specifications "ResourceType=instance,Tags=[{Key=Name,Value=$i}]" --query 'Instances[0].PrivateIpAddress' --output text)
+    IP_ADDRESS=$(aws ec2 run-instances --image-id $IAM_USER --instance-type $instance_type --security-group-ids $SEC_ID --tag-specifications "ResourceType=instance,Tags=[{Key=Name,Value=$i}]" --query 'Instances[0].PrivateIpAddress' --output text)
     echo "$i: $IP_ADDRESS"
 
     aws route53 change-resource-record-sets \
@@ -36,5 +36,5 @@ do
         }
         }]
     }
-
+       '
 done
