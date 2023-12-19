@@ -2,7 +2,7 @@
 
 IAM_USER=ami-03265a0778a880afb
 SEC_ID=sg-0741a844c5c52bff1
-ZONE-ID=Z0820524U587YTI3CYP8
+ZONE_ID=Z0820524U587YTI3CYP8
 DOMAIN_NAME="174a9.online"
 
 INSTANCES=("mongodb" "redis" "mysql" "rabbitmq" "web" "catalogue" "cart" "user" "payment" "shipping")
