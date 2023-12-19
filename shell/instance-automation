@@ -7,7 +7,7 @@ DOMAIN_NAME="174a9.online"
 
 INSTANCES=("mongodb" "redis" "mysql" "rabbitmq" "web" "catalogue" "cart" "user" "payment" "shipping")
 
-for i in ${INSTANCES[@]}
+for i in "${INSTANCES[@]}"
 do
     if [ $i == "mongodb" ] || [ if $i == "redis" ] || [ if $i == "mysql" ] || [ if $i == "rabbitmq" ]
     then
