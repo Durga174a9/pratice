@@ -1,0 +1,40 @@
+#!/bin/bash
+
+IAM_USER=ami-03265a0778a880afb
+SEC_ID=sg-0741a844c5c52bff1
+ZONE_ID=Z0820524U587YTI3CYP8
+DOMAIN_NAME="174a9.online"
+
+INSTANCES=("mongodb" "redis"  "web" "catalogue" "cart" "user")
+
+for i in "${INSTANCES[@]}"
+do
+    if [ $i == "mongodb" ] || [ $i == "redis" ] || [ $i == "mysql" ] || [ $i == "rabbitmq" ]
+    then
+        instance_type="t3.small"
+    else
+        instance_type="t2.micro"
+    fi
+
+    IP_ADDRESS=$(aws ec2 run-instances --image-id $IAM_USER --instance-type $instance_type --security-group-ids $SEC_ID --tag-specifications "ResourceType=instance,Tags=[{Key=Name,Value=$i}]" --query 'Instances[0].PrivateIpAddress' --output text)
+    echo "$i: $IP_ADDRESS"
+
+    aws route53 change-resource-record-sets \
+    --hosted-zone-id $ZONE_ID \
+    --change-batch '
+    {
+        "Comment": "Creating a record set for cognito endpoint"
+        ,"Changes": [{
+        "Action"              : "CREATE"
+        ,"ResourceRecordSet"  : {
+            "Name"              : "'$i'.'$DOMAIN_NAME'"
+            ,"Type"             : "A"
+            ,"TTL"              : 1
+            ,"ResourceRecords"  : [{
+                "Value"         : "'$IP_ADDRESS'"
+            }]
+        }
+        }]
+    }
+       '
+done
