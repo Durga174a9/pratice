@@ -1,0 +1,10 @@
+name: durga-workflow
+on: workflow_dispatch
+jobs:
+  durga-job:
+    runs-on: ubuntu-latest
+    steps:
+      - name: first stage
+        run: echo "hello mate"
+      - name: secound stage
+        run: echo "bye mate"
